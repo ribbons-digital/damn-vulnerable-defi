@@ -37,7 +37,11 @@ contract FlashLoanerPool is ReentrancyGuard {
 
         liquidityToken.transfer(msg.sender, amount);
 
-        msg.sender.functionCall(abi.encodeWithSignature("receiveFlashLoan(uint256)", amount));
+        // This is where we can take advantage of the flashloan as it calls
+        // below function in the same transaction in the caller's contract
+        msg.sender.functionCall(
+            abi.encodeWithSignature("receiveFlashLoan(uint256)", amount)
+        );
 
         if (liquidityToken.balanceOf(address(this)) < balanceBefore) {
             revert FlashLoanNotPaidBack();
